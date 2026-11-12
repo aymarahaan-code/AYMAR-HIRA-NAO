@@ -25,24 +25,29 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Setup Android
-        uses: android-actions/setup-android@v3
-        with:
-          packages: 'platform-tools'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
 
-      - name: Install Android SDK
-        run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
 
-      - name: Install packages
+      - name: Install project packages
         run: npm ci
 
       - name: Extract Android project
         run: |
-          unzip android.zip -d extracted
-          if [ -d extracted/android ]; then
-            mv extracted/android ./android
+          if [ -d android ]; then
+            echo "Android project already exists"
+          elif [ -f android.zip ]; then
+            unzip -q android.zip -d extracted
+            if [ -d extracted/android ]; then
+              mv extracted/android android
+            else
+              mv extracted/* android
+            fi
           else
-            mv extracted ./android
+            echo "Android project or android.zip not found"
+            exit 1
           fi
 
       - name: Sync Capacitor
@@ -50,7 +55,9 @@ jobs:
 
       - name: Build APK
         working-directory: android
-        run: chmod +x gradlew && ./gradlew assembleDebug
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
 
       - name: Save APK
         uses: actions/upload-artifact@v4

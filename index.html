@@ -1,0 +1,614 @@
+﻿
+<!DOCTYPE html>
+<html lang="mg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171126">
+<title>AYMAR HIRA GASY</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #100d1c;
+  color: #fff;
+  font-size: 13px;
+}
+
+header {
+  height: 58px;
+  background: #1d1630;
+  border-bottom: 1px solid #58377b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg,#7629c7,#c084fc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.brand h1 {
+  font-size: 16px;
+  margin: 0;
+  color: #e4c7ff;
+  letter-spacing: 1px;
+}
+
+header small {
+  color: #aaa;
+  font-size: 10px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1050px;
+  margin: auto;
+  padding: 14px;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 275px;
+  gap: 13px;
+  min-height: 440px;
+}
+
+.player-area,
+.playlist-area {
+  background: #1c1729;
+  border: 1px solid #382b4c;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.player-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.cover {
+  width: 135px;
+  height: 135px;
+  border-radius: 19px;
+  background: linear-gradient(140deg,#53209a,#a855f7);
+  border: 2px solid #c084fc;
+  box-shadow: 0 0 23px #6e35a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 63px;
+  margin-bottom: 13px;
+}
+
+.player-area h2 {
+  color: #dfc0ff;
+  font-size: 17px;
+  margin: 5px;
+}
+
+#songName {
+  color: #aaa;
+  text-align: center;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  margin: 7px 0 12px;
+}
+
+audio {
+  width: 100%;
+  height: 35px;
+  margin: 5px 0 12px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+button,
+.add-button {
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: white;
+  background: #7135ad;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+button:hover,
+.add-button:hover {
+  background: #9956d7;
+}
+
+.play-main {
+  background: #a04ce2;
+  font-weight: bold;
+  padding: 10px 17px;
+}
+
+.add-button {
+  display: inline-block;
+  margin-top: 13px;
+}
+
+#musicFiles {
+  display: none;
+}
+
+.playlist-area {
+  min-width: 0;
+}
+
+.playlist-area h3 {
+  color: #dfc0ff;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.tab {
+  background: #2a203b;
+  color: #bbb;
+  padding: 9px 4px;
+  font-size: 10px;
+}
+
+.tab.active {
+  background: #7135ad;
+  color: white;
+}
+
+.song-list {
+  max-height: 330px;
+  overflow-y: auto;
+}
+
+.song {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 7px;
+  border-bottom: 1px solid #382b4c;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.song:hover,
+.song.active {
+  background: #38234e;
+}
+
+.song-icon {
+  width: 28px;
+  height: 28px;
+  background: #352348;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.song-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.song-info strong {
+  display: block;
+  font-size: 11px;
+  font-weight: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.song-info small {
+  color: #999;
+  font-size: 10px;
+}
+
+.heart {
+  background: transparent;
+  padding: 5px;
+  color: #bbb;
+  font-size: 15px;
+}
+
+.heart.liked {
+  color: #ff70a6;
+}
+
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 25px 8px;
+  font-size: 11px;
+}
+
+.bottom-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.bottom-actions button {
+  font-size: 10px;
+  background: #30243f;
+}
+
+footer {
+  color: #777;
+  text-align: center;
+  padding: 14px;
+  font-size: 10px;
+}
+
+/* Endrika finday */
+@media (max-width: 650px) {
+  header {
+    height: 53px;
+    padding: 0 10px;
+  }
+
+  .brand h1 {
+    font-size: 13px;
+  }
+
+  header small {
+    display: none;
+  }
+
+  .container {
+    padding: 8px;
+  }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .player-area {
+    padding: 13px;
+    min-height: 300px;
+  }
+
+  .cover {
+    width: 105px;
+    height: 105px;
+    font-size: 48px;
+  }
+
+  .player-area h2 {
+    font-size: 15px;
+  }
+
+  .playlist-area {
+    padding: 12px;
+  }
+
+  .song-list {
+    max-height: 230px;
+  }
+
+  .controls button {
+    padding: 8px 9px;
+    font-size: 11px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">♫</div>
+    <h1>AYMAR HIRA GASY</h1>
+  </div>
+  <small>MOZIKA MALAGASY 🇲🇬</small>
+</header>
+
+<div class="container">
+
+  <div class="app">
+
+    <!-- MPANDefa HIRA -->
+    <main class="player-area">
+
+      <div class="cover">🎧♫</div>
+
+      <h2>MPANDRE HIRA</h2>
+
+      <div id="songName">
+        Tongasoa eto amin'ny AYMAR HIRA GASY
+      </div>
+
+      <audio id="player" controls></audio>
+
+      <div class="controls">
+        <button onclick="previousSong()">⏮ Teo aloha</button>
+        <button class="play-main" onclick="playSong()">▶ Alefa</button>
+        <button onclick="pauseSong()">⏸ Atsahatra</button>
+        <button onclick="nextSong()">Manaraka ⏭</button>
+      </div>
+
+      <label class="add-button" for="musicFiles">
+        ＋ Ampidiro ny hiranao
+      </label>
+
+      <input type="file" id="musicFiles"
+        accept="audio/*,.mp3,.wav,.ogg" multiple>
+
+    </main>
+
+    <!-- LISITRY NY HIRA EO ANKAVANANA -->
+    <aside class="playlist-area">
+
+      <h3>🎵 LISITRY NY HIRA</h3>
+
+      <div class="tabs">
+        <button class="tab active"
+          onclick="changeTab('all',this)">
+          Rehetra
+        </button>
+
+        <button class="tab"
+          onclick="changeTab('favorites',this)">
+          ❤️ Tiako
+        </button>
+
+        <button class="tab"
+          onclick="changeTab('recent',this)">
+          Vaovao
+        </button>
+      </div>
+
+      <div id="songList" class="song-list">
+        <div class="empty">
+          Mbola tsy misy hira.<br>
+          Ampidiro ny hiranao.
+        </div>
+      </div>
+
+      <div class="bottom-actions">
+        <button onclick="clearList()">Fafao ny lisitra</button>
+        <button onclick="nextSong()">Hira manaraka ⏭</button>
+      </div>
+
+    </aside>
+
+  </div>
+
+</div>
+
+<footer>
+  © 2026 AYMAR HIRA GASY · MOZIKA MALAGASY 🇲🇬
+</footer>
+
+<script>
+const player = document.getElementById("player");
+const musicFiles = document.getElementById("musicFiles");
+const songList = document.getElementById("songList");
+const songName = document.getElementById("songName");
+
+let songs = [];
+let favorites = [];
+let current = -1;
+let currentURL = null;
+let activeTab = "all";
+
+musicFiles.addEventListener("change", function() {
+  const files = Array.from(this.files);
+
+  files.forEach(file => {
+    songs.push({
+      file: file,
+      name: file.name,
+      favorite: false,
+      id: Math.random().toString(36).slice(2)
+    });
+  });
+
+  this.value = "";
+
+  if (current === -1 && songs.length > 0) {
+    current = 0;
+    loadSong(current);
+  }
+
+  renderSongs();
+});
+
+function changeTab(tab, button) {
+  activeTab = tab;
+
+  document.querySelectorAll(".tab").forEach(item => {
+    item.classList.remove("active");
+  });
+
+  button.classList.add("active");
+  renderSongs();
+}
+
+function renderSongs() {
+  songList.innerHTML = "";
+
+  let list = songs.map((song, index) => ({
+    song,
+    index
+  }));
+
+  if (activeTab === "favorites") {
+    list = list.filter(item => item.song.favorite);
+  }
+
+  if (activeTab === "recent") {
+    list.reverse();
+  }
+
+  if (list.length === 0) {
+    songList.innerHTML =
+      '<div class="empty">Mbola tsy misy hira eto.</div>';
+    return;
+  }
+
+  list.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "song";
+
+    if (item.index === current) {
+      div.classList.add("active");
+    }
+
+    const icon = document.createElement("div");
+    icon.className = "song-icon";
+    icon.textContent = "♫";
+
+    const info = document.createElement("div");
+    info.className = "song-info";
+
+    const name = document.createElement("strong");
+    name.textContent = item.song.name;
+
+    const detail = document.createElement("small");
+    detail.textContent = "Hira Malagasy";
+
+    info.appendChild(name);
+    info.appendChild(detail);
+
+    const heart = document.createElement("button");
+    heart.className = "heart";
+    heart.textContent = item.song.favorite ? "♥" : "♡";
+
+    if (item.song.favorite) {
+      heart.classList.add("liked");
+    }
+
+    heart.onclick = function(event) {
+      event.stopPropagation();
+      item.song.favorite = !item.song.favorite;
+      renderSongs();
+    };
+
+    div.appendChild(icon);
+    div.appendChild(info);
+    div.appendChild(heart);
+
+    div.onclick = function() {
+      current = item.index;
+      loadSong(current);
+      playSong();
+      renderSongs();
+    };
+
+    songList.appendChild(div);
+  });
+}
+
+function loadSong(index) {
+  if (!songs[index]) return;
+
+  if (currentURL) {
+    URL.revokeObjectURL(currentURL);
+  }
+
+  currentURL = URL.createObjectURL(songs[index].file);
+  player.src = currentURL;
+  songName.textContent = songs[index].name;
+
+  renderSongs();
+}
+
+function playSong() {
+  if (songs.length === 0) return;
+
+  if (current === -1) {
+    current = 0;
+    loadSong(current);
+  }
+
+  player.play().catch(() => {});
+}
+
+function pauseSong() {
+  player.pause();
+}
+
+function nextSong() {
+  if (songs.length === 0) return;
+
+  current = (current + 1) % songs.length;
+  loadSong(current);
+  playSong();
+}
+
+function previousSong() {
+  if (songs.length === 0) return;
+
+  current = (current - 1 + songs.length) % songs.length;
+  loadSong(current);
+  playSong();
+}
+
+function clearList() {
+  player.pause();
+
+  if (currentURL) {
+    URL.revokeObjectURL(currentURL);
+  }
+
+  songs = [];
+  current = -1;
+  currentURL = null;
+
+  player.removeAttribute("src");
+  player.load();
+
+  songName.textContent =
+    "Tongasoa eto amin'ny AYMAR HIRA GASY";
+
+  renderSongs();
+}
+
+player.addEventListener("ended", nextSong);
+
+</script>
+
+</body>
+</html>
